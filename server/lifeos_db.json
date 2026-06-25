@@ -1,0 +1,231 @@
+{
+  "profile": {
+    "name": "Alex Mercer",
+    "email": "alex.mercer@stark.corp",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
+    "budgetLimit": 1200,
+    "aiPersonality": "Logical",
+    "dailyPlanningReminderTime": "21:00",
+    "hasPlannedTomorrow": false,
+    "listeningMode": "push-to-talk",
+    "proactiveModeEnabled": true,
+    "maxProactiveNudges": 2,
+    "dailyReviewTime": "21:30",
+    "learnedPatterns": [
+      "Peak cognitive focus observed between 19:00 - 22:00 hours for coding studies.",
+      "Skipping morning cardio blocks exhibits an 18% average reduction in task consistency index.",
+      "Late-night eating category shows high susceptibility to emotional impulse buys (average $38/spend).",
+      "Goal streak consistency rises by 42% when tasks are completed prior to 20:00 hours."
+    ]
+  },
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Morning Cardio Workout (30 mins)",
+      "category": "important-not-urgent",
+      "date": "2026-06-25",
+      "time": "07:00",
+      "recurType": "daily",
+      "status": "completed",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-2",
+      "title": "Review Financial Portfolio & Budget",
+      "category": "urgent-important",
+      "date": "2026-06-25",
+      "time": "10:30",
+      "recurType": "none",
+      "status": "pending",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-3",
+      "title": "System Architecture Design Study",
+      "category": "important-not-urgent",
+      "date": "2026-06-25",
+      "time": "14:00",
+      "recurType": "weekly",
+      "status": "completed",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-4",
+      "title": "Rescheduled skipped task: Dental checkup",
+      "category": "not-urgent-not-important",
+      "date": "2026-06-25",
+      "time": "16:00",
+      "recurType": "none",
+      "status": "pending",
+      "originalDate": "2026-06-23",
+      "rescheduledCount": 1
+    }
+  ],
+  "habits": [
+    {
+      "id": "habit-1",
+      "name": "Deep Work Coding (2hrs)",
+      "frequency": "daily",
+      "streak": 5,
+      "logs": [
+        "2026-06-21",
+        "2026-06-22",
+        "2026-06-23",
+        "2026-06-24",
+        "2026-06-25"
+      ],
+      "skippedDaysCount": 0
+    },
+    {
+      "id": "habit-2",
+      "name": "Meditation & Focus Practice",
+      "frequency": "daily",
+      "streak": 3,
+      "logs": [
+        "2026-06-23",
+        "2026-06-24",
+        "2026-06-25"
+      ],
+      "skippedDaysCount": 1
+    },
+    {
+      "id": "habit-3",
+      "name": "Read Technical Articles",
+      "frequency": "daily",
+      "streak": 12,
+      "logs": [
+        "2026-06-14",
+        "2026-06-15",
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21",
+        "2026-06-22",
+        "2026-06-23",
+        "2026-06-24",
+        "2026-06-25"
+      ],
+      "skippedDaysCount": 0
+    },
+    {
+      "id": "habit-4",
+      "name": "No Emotional Splurges",
+      "frequency": "daily",
+      "streak": 8,
+      "logs": [
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21",
+        "2026-06-22",
+        "2026-06-23",
+        "2026-06-24",
+        "2026-06-25"
+      ],
+      "skippedDaysCount": 0
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-1",
+      "amount": 14.5,
+      "category": "food",
+      "note": "Healthy grain bowl lunch",
+      "date": "2026-06-25",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-2",
+      "amount": 5.2,
+      "category": "transportation",
+      "note": "Metro subway commute",
+      "date": "2026-06-25",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-3",
+      "amount": 120,
+      "category": "shopping",
+      "note": "Ergonomic keyboard upgrade",
+      "date": "2026-06-24",
+      "isImpulsive": true,
+      "explanation": "Mandatory office upgrade to reduce carpal tunnel pain."
+    },
+    {
+      "id": "exp-4",
+      "amount": 42.5,
+      "category": "entertainment",
+      "note": "Synthwave VR concerts ticket",
+      "date": "2026-06-23",
+      "isImpulsive": true,
+      "explanation": "Impulse late night buy, looked exceptionally fun."
+    }
+  ],
+  "budgets": [
+    {
+      "category": "food",
+      "limit": 300
+    },
+    {
+      "category": "transportation",
+      "limit": 100
+    },
+    {
+      "category": "shopping",
+      "limit": 250
+    },
+    {
+      "category": "education",
+      "limit": 200
+    },
+    {
+      "category": "healthcare",
+      "limit": 100
+    },
+    {
+      "category": "entertainment",
+      "limit": 150
+    },
+    {
+      "category": "misc",
+      "limit": 100
+    }
+  ],
+  "chatHistory": [
+    {
+      "id": "chat-1",
+      "role": "assistant",
+      "content": "Welcome Alex. LifeOS is fully configured. I have compiled today's tasks and updated your habits streak logs. I am J.A.R.V.I.S — your cognitive life advisor.",
+      "timestamp": "2026-06-25T15:03:12.869Z",
+      "type": "chat"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1",
+      "title": "J.A.R.V.I.S. Core Online",
+      "message": "Initialization succeeded. Tap the micro-wave dynamic orb below at any time to query me or dictate status logs.",
+      "timestamp": "2026-06-25T15:03:12.869Z",
+      "type": "reminder",
+      "read": false
+    },
+    {
+      "id": "notif-2",
+      "title": "Budget Status Alert",
+      "message": "You have utilized 68% of your aggregate Entertainment budget. Spend conscientiously.",
+      "timestamp": "2026-06-25T12:03:12.869Z",
+      "type": "budget",
+      "read": true
+    },
+    {
+      "id": "notif-3",
+      "title": "Streak Milestone!",
+      "message": "Your habit 'Read Technical Articles' has reached a robust consistency of 12 consecutive days.",
+      "timestamp": "2026-06-24T15:03:12.869Z",
+      "type": "streak",
+      "read": false
+    }
+  ]
+}

@@ -1,0 +1,335 @@
+{
+  "profile": {
+    "name": "Alex Mercer",
+    "email": "alex.mercer@stark.corp",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=120",
+    "budgetLimit": 1500,
+    "aiPersonality": "Logical",
+    "dailyPlanningReminderTime": "21:00",
+    "hasPlannedTomorrow": false
+  },
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Morning Yoga & Cardio Workout (30 mins)",
+      "category": "important-not-urgent",
+      "date": "2026-06-21",
+      "time": "07:00",
+      "recurType": "daily",
+      "status": "completed",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-2",
+      "title": "Review Financial Portfolio & Spent Budget limits",
+      "category": "urgent-important",
+      "date": "2026-06-21",
+      "time": "10:30",
+      "recurType": "none",
+      "status": "pending",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-3",
+      "title": "Deep System Architecture Design Study",
+      "category": "important-not-urgent",
+      "date": "2026-06-21",
+      "time": "14:00",
+      "recurType": "weekly",
+      "status": "completed",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-4",
+      "title": "Overdue Task: Schedule annual dental cleaning",
+      "category": "not-urgent-not-important",
+      "date": "2026-06-21",
+      "time": "16:30",
+      "recurType": "none",
+      "status": "pending",
+      "originalDate": "2026-06-19",
+      "rescheduledCount": 1
+    },
+    {
+      "id": "task-5",
+      "title": "Refactor application state metrics & DB handlers",
+      "category": "urgent-important",
+      "date": "2026-06-21",
+      "time": "18:00",
+      "recurType": "none",
+      "status": "pending",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-6",
+      "title": "Acquire weekly healthy provisions (Whole Foods)",
+      "category": "urgent-not-important",
+      "date": "2026-06-21",
+      "time": "19:15",
+      "recurType": "none",
+      "status": "completed",
+      "rescheduledCount": 0
+    },
+    {
+      "id": "task-7",
+      "title": "Daily algorithm training (2 Medium LeetCode)",
+      "category": "important-not-urgent",
+      "date": "2026-06-21",
+      "time": "21:00",
+      "recurType": "daily",
+      "status": "pending",
+      "rescheduledCount": 0
+    }
+  ],
+  "habits": [
+    {
+      "id": "habit-1",
+      "name": "Deep Work Coding (2hrs)",
+      "frequency": "daily",
+      "streak": 8,
+      "logs": [
+        "2026-06-14",
+        "2026-06-15",
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21"
+      ],
+      "skippedDaysCount": 0
+    },
+    {
+      "id": "habit-2",
+      "name": "Meditation & Mindful Alignment",
+      "frequency": "daily",
+      "streak": 5,
+      "logs": [
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21"
+      ],
+      "skippedDaysCount": 1
+    },
+    {
+      "id": "habit-3",
+      "name": "Analyze Technical Research Papers",
+      "frequency": "daily",
+      "streak": 15,
+      "logs": [
+        "2026-06-07",
+        "2026-06-08",
+        "2026-06-09",
+        "2026-06-10",
+        "2026-06-11",
+        "2026-06-12",
+        "2026-06-13",
+        "2026-06-14",
+        "2026-06-15",
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21"
+      ],
+      "skippedDaysCount": 0
+    },
+    {
+      "id": "habit-4",
+      "name": "Strict Budget Control Tracker",
+      "frequency": "daily",
+      "streak": 10,
+      "logs": [
+        "2026-06-12",
+        "2026-06-13",
+        "2026-06-14",
+        "2026-06-15",
+        "2026-06-16",
+        "2026-06-17",
+        "2026-06-18",
+        "2026-06-19",
+        "2026-06-20",
+        "2026-06-21"
+      ],
+      "skippedDaysCount": 0
+    },
+    {
+      "id": "habit-5",
+      "name": "Gym Resistance Routine",
+      "frequency": "weekly",
+      "streak": 3,
+      "logs": [
+        "2026-06-07",
+        "2026-06-14",
+        "2026-06-21"
+      ],
+      "skippedDaysCount": 0
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-1",
+      "amount": 18.5,
+      "category": "food",
+      "note": "Healthy salmon grain bowl lunch",
+      "date": "2026-06-21",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-2",
+      "amount": 4.8,
+      "category": "transportation",
+      "note": "Subway express ticket to office",
+      "date": "2026-06-21",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-3",
+      "amount": 120,
+      "category": "shopping",
+      "note": "Ergonomic split keyboard upgrade",
+      "date": "2026-06-20",
+      "isImpulsive": true,
+      "explanation": "Necessary work equipment update to prevent developer wrist stress during sessions."
+    },
+    {
+      "id": "exp-4",
+      "amount": 45,
+      "category": "entertainment",
+      "note": "Cyberpunk synthwave XR live ticket",
+      "date": "2026-06-19",
+      "isImpulsive": true,
+      "explanation": "Late night community meetup purchase. Boosts mental relaxation and focus inspiration."
+    },
+    {
+      "id": "exp-5",
+      "amount": 49,
+      "category": "education",
+      "note": "Masterclass Series on Advanced System Design",
+      "date": "2026-06-18",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-6",
+      "amount": 35,
+      "category": "healthcare",
+      "note": "Organic vitamins & active hydration minerals supply",
+      "date": "2026-06-17",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-7",
+      "amount": 15,
+      "category": "misc",
+      "note": "High precision cloud staging VPS micro instance",
+      "date": "2026-06-16",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-8",
+      "amount": 68.4,
+      "category": "food",
+      "note": "Whole Foods weekly balanced nutrients",
+      "date": "2026-06-15",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-9",
+      "amount": 12.5,
+      "category": "transportation",
+      "note": "Shared hybrid fuel ride-hail evening commute",
+      "date": "2026-06-14",
+      "isImpulsive": false
+    },
+    {
+      "id": "exp-10",
+      "amount": 95,
+      "category": "education",
+      "note": "Full-Stack engineering books subscription",
+      "date": "2026-06-12",
+      "isImpulsive": false
+    }
+  ],
+  "budgets": [
+    {
+      "category": "food",
+      "limit": 350
+    },
+    {
+      "category": "transportation",
+      "limit": 120
+    },
+    {
+      "category": "shopping",
+      "limit": 250
+    },
+    {
+      "category": "education",
+      "limit": 200
+    },
+    {
+      "category": "healthcare",
+      "limit": 100
+    },
+    {
+      "category": "entertainment",
+      "limit": 120
+    },
+    {
+      "category": "misc",
+      "limit": 100
+    }
+  ],
+  "chatHistory": [
+    {
+      "id": "chat-1",
+      "role": "assistant",
+      "content": "Welcome back, Sir. System parameters are fully calibrated for our daily routine. I've compiled your morning tasks list and locked your consecutive habits. Ready for optimization commands.",
+      "timestamp": "2026-06-21T01:00:00.000Z",
+      "type": "chat"
+    },
+    {
+      "id": "chat-2",
+      "role": "user",
+      "content": "Check my current habit progress for the week.",
+      "timestamp": "2026-06-21T01:10:00.000Z",
+      "type": "chat"
+    },
+    {
+      "id": "chat-3",
+      "role": "assistant",
+      "content": "Outstanding consistency, Alex. Your 'Analyze Technical Research Papers' habit has climbed to a 15-day streak, and your 'Deep Work Coding' remains completely intact with 8 continuous days. You are executing beautifully.",
+      "timestamp": "2026-06-21T01:10:15.000Z",
+      "type": "motivation"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1",
+      "title": "J.A.R.V.I.S. Interactive Core Live",
+      "message": "LifeOS diagnostic sweeps completed. Select voice triggers or consult the cognitive graph views.",
+      "timestamp": "2026-06-21T01:00:00.000Z",
+      "type": "reminder",
+      "read": false
+    },
+    {
+      "id": "notif-2",
+      "title": "Aggregate Budget Threshold Reminder",
+      "message": "Sir, your current Entertainment expenditures have reached 37.5% of the allocated $120.00 limit. Maintain selective spending.",
+      "timestamp": "2026-06-20T18:30:00.000Z",
+      "type": "budget",
+      "read": false
+    },
+    {
+      "id": "notif-3",
+      "title": "Behavioral Milestone Detected!",
+      "message": "Continuous research routine confirmed. 'Analyze Technical Research Papers' has exceeded a consecutive 15-day streak benchmark.",
+      "timestamp": "2026-06-21T00:05:00.000Z",
+      "type": "streak",
+      "read": false
+    }
+  ]
+}
