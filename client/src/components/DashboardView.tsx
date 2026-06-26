@@ -29,7 +29,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   selectedTaskId,
   onFocusTask
 }) => {
-  const { tasks, habits, expenses, profile } = data;
+  const { tasks, habits, expenses, profile, chatHistory } = data;
 
   // Calculate stats
   const totalTasks = tasks.length;
@@ -37,20 +37,33 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const pendingTasks = tasks.filter(t => t.status === "pending").length;
   const taskCompletionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
+  const todayStr = new Date().toISOString().split("T")[0];
   const totalHabitsCount = habits.length;
-  const loggedHabitsCount = habits.filter(h => h.logs.includes(new Date().toISOString().split("T")[0])).length;
+  const loggedHabitsCount = habits.filter(h => h.logs.includes(todayStr)).length;
   const habitCompletionRate = totalHabitsCount > 0 ? Math.round((loggedHabitsCount / totalHabitsCount) * 100) : 0;
 
   const highestStreak = habits.length > 0 ? Math.max(...habits.map(h => h.streak)) : 0;
 
   // Synthesize dynamic Life Score
-  const goalsCompletedRate = 65; // High performance index
+  const goalsCompletedRate = 0; // Set to 0 until the Goals API module is fully built!
   const lifeScore = Math.round((taskCompletionRate * 0.4) + (habitCompletionRate * 0.4) + (goalsCompletedRate * 0.2));
 
   // Get next pending tasks
   const sortedTasks = [...tasks]
     .sort((a, b) => a.time.localeCompare(b.time))
     .slice(0, 6);
+
+  // Get today's actual sequence progress
+  const todayTasks = tasks.filter(t => t.date === todayStr)
+    .sort((a, b) => a.time.localeCompare(b.time))
+    .slice(0, 4);
+  const todayDone = todayTasks.filter(t => t.status === 'completed').length;
+  const todayProgress = todayTasks.length > 0 ? Math.round((todayDone / todayTasks.length) * 100) : 0;
+
+  // Get Piggy's last real message
+  const latestAssistantMsg = [...(chatHistory || [])]
+    .reverse()
+    .find(m => m.role === 'assistant');
 
   // Quick Action buttons
   const actions = [
@@ -95,7 +108,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <div className="space-y-1">
               <h3 className="font-display font-bold text-lg text-slate-800">System Performance Index</h3>
               <p className="text-xs text-slate-500 max-w-xs leading-relaxed font-sans">
-                Alex, your aggregated parameters show a highly synced mental focus. Keep committing tasks to maintain status levels.
+                {profile.name.split(" ")[0]}, your aggregated parameters show a highly synced mental focus. Keep committing tasks to maintain status levels.
               </p>
             </div>
           </div>
@@ -154,7 +167,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
           <div className="my-4 border-l-2 border-amber-500/40 pl-3">
             <p className="text-xs text-slate-300 italic leading-relaxed font-sans">
-              "We must refactor Alex's evening review constraints, Sir. Your ledger spent is bordering the maximum budget limits. Focus on static nutrition purchases."
+              "{latestAssistantMsg?.content || `${profile.name.split(" ")[0]}, systems are optimal. Awaiting your next command.`}"
             </p>
           </div>
 
@@ -366,40 +379,38 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-display font-semibold text-base text-slate-900">Sequence Progress</h3>
-              <p className="font-mono text-xs text-amber-600">75%</p>
+              <p className="font-mono text-xs text-amber-600">{todayProgress}%</p>
             </div>
 
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-              <div className="h-full bg-radial from-amber-400 to-amber-500 rounded-full w-[75%]" />
+              <div 
+                className="h-full bg-radial from-amber-400 to-amber-500 rounded-full transition-all duration-500" 
+                style={{ width: `${todayProgress}%` }}
+              />
             </div>
 
             <div className="space-y-3 font-display">
-              <div className="flex items-center gap-2 text-xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                <span className="text-slate-600 font-medium">Cardio Fitness Block</span>
-                <span className="ml-auto font-mono text-[10px] text-slate-400">07:00 Complete</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                <span className="text-slate-600 font-medium font-bold text-emerald-600">Architecture paper logged</span>
-                <span className="ml-auto font-mono text-[10px] text-emerald-500">Log Synced</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0 animate-pulse" />
-                <span className="text-slate-700 font-semibold text-amber-700">Financial Ledger Review</span>
-                <span className="ml-auto font-mono text-[10px] text-amber-500">Pending core</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs">
-                <span className="w-2 h-2 rounded-full bg-slate-300 shrink-0" />
-                <span className="text-slate-400">Pre-sleep meditation block</span>
-                <span className="ml-auto font-mono text-[10px] text-slate-400">22:00 pending</span>
-              </div>
+              {todayTasks.length === 0 ? (
+                <p className="text-xs text-slate-400 text-center py-2 font-sans italic">No sequences logged for today.</p>
+              ) : (
+                todayTasks.map((task) => (
+                  <div key={task.id} className="flex items-center gap-2 text-xs">
+                    <span className={`w-2 h-2 rounded-full shrink-0 ${task.status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500 animate-pulse'}`} />
+                    <span className={`font-medium ${task.status === 'completed' ? 'text-emerald-600 font-bold' : 'text-slate-600'}`}>
+                      {task.title.length > 22 ? task.title.substring(0, 22) + "..." : task.title}
+                    </span>
+                    <span className={`ml-auto font-mono text-[10px] ${task.status === 'completed' ? 'text-emerald-500' : 'text-amber-500'}`}>
+                      {task.status === 'completed' ? 'Complete' : 'Pending'}
+                    </span>
+                  </div>
+                ))
+              )}
             </div>
 
             {/* Custom Bottom Button to trigger Daily Review */}
             <button
               onClick={onTriggerDailyReview}
-              className="w-full py-2 bg-slate-50 hover:bg-amber-50 border border-slate-150 text-slate-700 hover:text-amber-800 text-[11px] font-semibold rounded-xl text-center transition-colors flex items-center justify-center gap-1.5 cursor-pointer font-display"
+              className="w-full py-2 bg-slate-50 hover:bg-amber-50 border border-slate-150 text-slate-700 hover:text-amber-800 text-[11px] font-semibold rounded-xl text-center transition-colors flex items-center justify-center gap-1.5 cursor-pointer font-display mt-4"
             >
               <UserCheck className="w-3.5 h-3.5 text-amber-500" />
               Simulate Nightly Review

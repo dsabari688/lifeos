@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { Plus, Flame, Check, Sparkles, Smile, RefreshCw, Trophy, BookOpen, AlertCircle } from "lucide-react";
 import { Habit } from "../types";
 
@@ -35,17 +35,17 @@ export const HabitsView: React.FC<HabitsViewProps> = ({
     setShowAddForm(false);
   };
 
-  const todayStr = "2026-06-21";
+  const todayStr = new Date().toISOString().split("T")[0];;
 
   // Assign rich emojis to standard headers
   const getHabitIcon = (name: string) => {
     const n = name.toLowerCase();
-    if (n.includes("code") || n.includes("program") || n.includes("build")) return "💻";
-    if (n.includes("meditat") || n.includes("focus") || n.includes("align")) return "🧘";
-    if (n.includes("read") || n.includes("article") || n.includes("paper")) return "📚";
-    if (n.includes("budget") || n.includes("splurge") || n.includes("financ")) return "💰";
-    if (n.includes("gym") || n.includes("workout") || n.includes("resistance")) return "🏋️";
-    return "⚡";
+    if (n.includes("code") || n.includes("program") || n.includes("build")) return "ðŸ’»";
+    if (n.includes("meditat") || n.includes("focus") || n.includes("align")) return "ðŸ§˜";
+    if (n.includes("read") || n.includes("article") || n.includes("paper")) return "ðŸ“š";
+    if (n.includes("budget") || n.includes("splurge") || n.includes("financ")) return "ðŸ’°";
+    if (n.includes("gym") || n.includes("workout") || n.includes("resistance")) return "ðŸ‹ï¸";
+    return "âš¡";
   };
 
   return (

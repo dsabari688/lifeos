@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+﻿import React, { useState } from "react";
 import { User, Cpu, Bell, Shield, Palette, Check, Save } from "lucide-react";
 
 interface SettingsViewProps {
@@ -64,7 +64,21 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   });
 
   const handleToggle = (key: string) => {
-    setToggles(prev => ({ ...prev, [key]: !prev[key] }));
+    setToggles(prev => {
+      const next = { ...prev, [key]: !prev[key] };
+      
+      // If it's the dark mode toggle, apply/remove the CSS class globally
+      if (key === "darkMode") {
+        if (next.darkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+      
+      return next;
+    });
+
     if (key === "proactiveSuggestions") {
       setProactiveEnabled(!toggles.proactiveSuggestions);
     }
@@ -471,3 +485,4 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     </div>
   );
 };
+

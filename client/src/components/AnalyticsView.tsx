@@ -1,44 +1,77 @@
+﻿
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight, TrendingUp, TrendingDown, Clock, Activity, Sparkles, Brain } from "lucide-react";
 import { BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Task, Habit } from "../types";
 
 interface AnalyticsViewProps {
-  // Let's hook up client data or map beautiful mock parameters
+  tasks: Task[];
+  habits: Habit[];
+  profileName: string;
 }
 
-export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
-  const [currentMonth, setCurrentMonth] = useState("June 2026");
+export const AnalyticsView: React.FC<AnalyticsViewProps> = ({ tasks, habits, profileName }) => {
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const d = new Date();
+    return d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  });
 
-  // Recharts payload for weekly completion rates
-  const barChartData = [
-    { day: "MON", completion: 60 },
-    { day: "TUE", completion: 85 },
-    { day: "WED", completion: 70 },
-    { day: "THU", completion: 90 },
-    { day: "FRI", completion: 40 },
-    { day: "SAT", completion: 95 },
-    { day: "SUN", completion: 84 } // Highlighted: Today (Sunday)
-  ];
+  const todayStr = new Date().toISOString().split("T")[0];
+
+  // Calculate Real Global Metrics
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter(t => t.status === "completed").length;
+  const pendingTasks = tasks.filter(t => t.status === "pending").length;
+  const globalCompletionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+  // Calculate missed tasks (pending and older than today)
+  const missedTasks = tasks.filter(t => t.status === "pending" && t.date < todayStr).length;
+
+  // Focus Blocks (Mocking time for now, counting completed tasks as blocks)
+  const focusBlocks = completedTasks;
 
   const metrics = [
-    { value: "84%", label: "Completion Rate", trend: "↑ +6% vs last week", isPositive: true },
-    { value: "2", label: "Missed Tasks", trend: "↓ -4% vs last week", isPositive: true },
-    { value: "42.5h", label: "Interactive Coding Time", trend: "↑ +12% vs last week", isPositive: true },
-    { value: "18", label: "Focus Blocks", trend: "↑ 2 periods increase", isPositive: true }
+    { value: `${globalCompletionRate}%`, label: "Completion Rate", trend: "Current Database Average", isPositive: true },
+    { value: `${missedTasks}`, label: "Missed Tasks", trend: "Older than today", isPositive: missedTasks === 0 },
+    { value: `${totalTasks}`, label: "Total Tracked Tasks", trend: "System wide volume", isPositive: true },
+    { value: `${focusBlocks}`, label: "Focus Blocks Completed", trend: "Total completed blocks", isPositive: true }
   ];
 
+  // Generate dynamic chart data for the last 7 days
+  const barChartData = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    const dateStr = d.toISOString().split("T")[0];
+    const dayName = d.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+    
+    // Count how many tasks were completed on this specific day
+    const tasksThatDay = tasks.filter(t => t.date === dateStr);
+    const completedThatDay = tasksThatDay.filter(t => t.status === "completed").length;
+    const completionPercentage = tasksThatDay.length > 0 
+      ? Math.round((completedThatDay / tasksThatDay.length) * 100) 
+      : 0;
+
+    return {
+      day: dayName,
+      dateStr: dateStr,
+      completion: completionPercentage,
+      isToday: i === 6
+    };
+  });
+
+  // Dynamic Insights based on actual data
   const piggyInsights = [
     {
-      subject: "Cognitive Chronostasis",
-      observation: " Alex, neural data reveals an 18% spike in your focus completion rates when coding runs between 09:00 and 11:30 block. Prioritize these quadrants."
+      subject: "Task Volume Analysis",
+      observation: ` ${profileName.split(" ")[0]}, you currently have ${pendingTasks} pending tasks in your system out of a total ${totalTasks}. Focus on clearing backlog before adding new modules.`
     },
     {
-      subject: "Financial Exposure Warning",
-      observation: " Impulsive ledger expenditures (including Ergonomic keyboard buy) reached $162.50 this cycle. Stay aligned with Whole Foods budget limit, Sir."
+      subject: "Habit Conformance",
+      observation: ` Your maximum active streak across all habit structures is ${habits.length > 0 ? Math.max(...habits.map(h => h.streak)) : 0} days. Consistency is key to structural integrity.`
     },
     {
-      subject: "Sleep Buffer Maintenance",
-      observation: " Daily Planning triggers past 22:30 show correlations with a 7% decline in cardio focus velocity the following morning. Discipline sleep thresholds."
+      subject: "Action Item Focus",
+      observation: ` You have ${missedTasks} deferred tasks lingering in past dates. Re-allocate them to today or decommission them to keep the workspace clean.`
     }
   ];
 
@@ -54,15 +87,13 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
         {/* Month Scroll */}
         <div className="flex items-center gap-1.5 bg-white border border-slate-100 rounded-xl p-1 shadow-xs">
           <button 
-            className="p-1 px-1.5 hover:bg-slate-50 text-slate-500 hover:text-slate-700 rounded-lg font-bold"
-            onClick={() => setCurrentMonth("May 2026")}
+            className="p-1 px-1.5 hover:bg-slate-50 text-slate-500 hover:text-slate-700 rounded-lg font-bold transition-colors"
           >
             <ChevronLeft className="w-4 h-4 text-slate-500" />
           </button>
           <span className="font-mono text-xs font-bold text-slate-700 px-3 tracking-wide">{currentMonth}</span>
           <button 
-            className="p-1 px-1.5 hover:bg-slate-50 text-slate-500 hover:text-slate-700 rounded-lg font-bold"
-            onClick={() => setCurrentMonth("June 2026")}
+            className="p-1 px-1.5 hover:bg-slate-50 text-slate-500 hover:text-slate-700 rounded-lg font-bold transition-colors"
           >
             <ChevronRight className="w-4 h-4 text-slate-500" />
           </button>
@@ -76,8 +107,10 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
             <span className="text-[10px] font-bold text-slate-400 font-mono tracking-widest block uppercase">{m.label}</span>
             <span className="font-display font-extrabold text-2xl text-slate-800 block mt-1">{m.value}</span>
             
-            <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-600 mt-2 bg-emerald-50/50 px-2.5 py-0.5 rounded-full w-max border border-emerald-100">
-              <TrendingUp className="w-3 h-3 text-emerald-500 shrink-0" />
+            <span className={`flex items-center gap-1 text-[9px] font-mono font-bold mt-2 px-2.5 py-0.5 rounded-full w-max border ${
+              m.isPositive ? 'text-emerald-600 bg-emerald-50/50 border-emerald-100' : 'text-amber-600 bg-amber-50/50 border-amber-100'
+            }`}>
+              {m.isPositive ? <TrendingUp className="w-3 h-3 shrink-0" /> : <TrendingDown className="w-3 h-3 shrink-0" />}
               {m.trend}
             </span>
           </div>
@@ -91,7 +124,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
         <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-100 p-6 shadow-xs flex flex-col justify-between">
           <div className="mb-4">
             <h3 className="font-display font-bold text-slate-800 text-sm">Chronological Flow Metrics</h3>
-            <p className="text-xs text-slate-400 font-sans mt-0.5">Completions percentage by days of current sequence week.</p>
+            <p className="text-xs text-slate-400 font-sans mt-0.5">Completions percentage over the last 7 days.</p>
           </div>
 
           <div className="h-64 w-full cursor-pointer">
@@ -114,15 +147,12 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
                   contentStyle={{ background: '#0F172A', border: 'none', borderRadius: '10px', color: '#fff', fontSize: '11px', fontFamily: 'Plus Jakarta Sans' }}
                 />
                 <Bar dataKey="completion" radius={[8, 8, 0, 0]} maxBarSize={38}>
-                  {barChartData.map((entry, index) => {
-                    const isToday = entry.day === "SUN"; // highlighted today Sunday in amber
-                    return (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={isToday ? "#F5A623" : "#E2E8F0"} 
-                      />
-                    );
-                  })}
+                  {barChartData.map((entry, index) => (
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={entry.isToday ? "#F5A623" : "#E2E8F0"} 
+                    />
+                  ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
@@ -134,7 +164,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2 border-b border-slate-800 pb-3">
               <Brain className="w-5 h-5 text-amber-500 animate-pulse" />
-              <h3 className="font-display font-bold text-white text-sm">🤖 Cognitive Synthesis Insights</h3>
+              <h3 className="font-display font-bold text-white text-sm">ðŸ¤– Cognitive Synthesis Insights</h3>
             </div>
 
             <div className="space-y-4 divide-y divide-slate-800/80">
@@ -152,7 +182,7 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = () => {
           </div>
 
           <div className="mt-6 pt-3 border-t border-slate-800/80 font-mono text-[8px] text-slate-500 uppercase tracking-wider flex justify-between">
-            <span>MODEL: GEMINI-3.5-FLASH</span>
+            <span>MODEL: GEMINI-2.0-FLASH</span>
             <span>PROBABILITY PROG: OPTIMAL</span>
           </div>
         </div>

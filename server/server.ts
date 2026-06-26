@@ -1,7 +1,8 @@
-import express from "express";
+﻿import express from "express";
 import path from "path";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
+import * as vite from "vite";
+const createViteServer = vite.createServer;
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 
@@ -153,6 +154,7 @@ const defaultData = () => ({
       skippedDaysCount: 0
     }
   ],
+  goals: [], // Array added to track Strategic Goals
   expenses: [
     {
       id: "exp-1",
@@ -263,6 +265,12 @@ function readDB() {
         parsed.profile.learnedPatterns = defaults.learnedPatterns;
       }
     }
+    
+    // Ensure goals array exists for older databases
+    if (parsed && !parsed.goals) {
+      parsed.goals = [];
+    }
+
     return parsed;
   } catch (err) {
     console.error("Error reading database file", err);
@@ -292,6 +300,47 @@ app.post("/api/profile", (req, res) => {
   writeDB(db);
   res.json({ success: true, profile: db.profile });
 });
+
+// --- GOALS API MODULE ---
+
+// Create Goal
+app.post("/api/goals", (req, res) => {
+  const db = readDB();
+  const newGoal = {
+    id: `goal-${Date.now()}`,
+    title: req.body.title || "New Goal",
+    description: req.body.description || "",
+    targetDate: req.body.targetDate || getRelativeDateString(30),
+    progress: req.body.progress || 0,
+    status: req.body.status || "active"
+  };
+  db.goals.push(newGoal);
+  writeDB(db);
+  res.json({ success: true, goal: newGoal });
+});
+
+// Update Goal
+app.put("/api/goals/:id", (req, res) => {
+  const db = readDB();
+  const index = db.goals.findIndex((g: any) => g.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ error: "Goal not found" });
+  }
+
+  db.goals[index] = { ...db.goals[index], ...req.body };
+  writeDB(db);
+  res.json({ success: true, goal: db.goals[index] });
+});
+
+// Delete Goal
+app.delete("/api/goals/:id", (req, res) => {
+  const db = readDB();
+  db.goals = db.goals.filter((g: any) => g.id !== req.params.id);
+  writeDB(db);
+  res.json({ success: true });
+});
+
+// --- TASKS API MODULE ---
 
 // Create task
 app.post("/api/tasks", (req, res) => {
@@ -362,6 +411,8 @@ app.delete("/api/tasks/:id", (req, res) => {
   writeDB(db);
   res.json({ success: true });
 });
+
+// --- HABITS API MODULE ---
 
 // Create habit
 app.post("/api/habits", (req, res) => {
@@ -448,6 +499,8 @@ app.delete("/api/habits/:id", (req, res) => {
   writeDB(db);
   res.json({ success: true });
 });
+
+// --- EXPENSES API MODULE ---
 
 // Create expense with budget check & feedback flags
 app.post("/api/expenses", (req, res) => {
@@ -588,7 +641,7 @@ If the user specifies an action like "delete that task", "complete this habit", 
   try {
     const ai = getGeminiAI();
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.0-flash",
       contents: message,
       config: {
         systemInstruction: systemPrompt,
@@ -733,7 +786,7 @@ Return response in JSON format matching this schema:
   try {
     const ai = getGeminiAI();
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.0-flash",
       contents: basePrompt,
       config: {
         responseMimeType: "application/json",
@@ -819,7 +872,7 @@ Return response in JSON format matching this schema:
   try {
     const ai = getGeminiAI();
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.0-flash",
       contents: basePrompt,
       config: {
         responseMimeType: "application/json",

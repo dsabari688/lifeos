@@ -68,10 +68,21 @@ export interface SystemNotification {
   read: boolean;
 }
 
+// --- NEW: Strategic Goals Module ---
+export interface Goal {
+  id: string;
+  title: string;
+  description: string;
+  targetDate: string; // YYYY-MM-DD
+  progress: number; // 0 to 100
+  status: 'active' | 'completed' | 'paused';
+}
+
 export interface FullOSData {
   profile: UserProfile;
   tasks: Task[];
   habits: Habit[];
+  goals: Goal[]; // <-- We wired this in!
   expenses: Expense[];
   budgets: CategoryBudget[];
   chatHistory: ChatMessage[];

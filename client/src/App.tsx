@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { 
   Menu, X, Bell, User, LayoutDashboard, Calendar, RefreshCw, Target, 
   LineChart, Cpu, Clock, Settings, ShieldAlert, LogOut, CheckCircle, 
@@ -301,6 +301,52 @@ export default function App() {
     }
   };
 
+    // Goals logic
+  const handleAddGoal = async (title: string, targetDate: string) => {
+    setIsUpdatingDb(true);
+    try {
+      const res = await fetch("/api/goals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, targetDate, progress: 0, status: "active" })
+      });
+      if (res.ok) await hydrateSystemData();
+    } catch (err) {
+      console.error("Goal Add Err:", err);
+    } finally {
+      setIsUpdatingDb(false);
+    }
+  };
+
+  const handleUpdateGoalProgress = async (id: string, progress: number) => {
+    setIsUpdatingDb(true);
+    try {
+      const res = await fetch(`/api/goals/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ progress })
+      });
+      if (res.ok) await hydrateSystemData();
+    } catch (err) {
+      console.error("Goal Update Err:", err);
+    } finally {
+      setIsUpdatingDb(false);
+    }
+  };
+
+  const handleDeleteGoal = async (id: string) => {
+    if (!confirm("Decommission this strategic goal?")) return;
+    setIsUpdatingDb(true);
+    try {
+      const res = await fetch(`/api/goals/${id}`, { method: "DELETE" });
+      if (res.ok) await hydrateSystemData();
+    } catch (err) {
+      console.error("Goal Delete Err:", err);
+    } finally {
+      setIsUpdatingDb(false);
+    }
+  };
+
   // Profile saves
   const handleSaveProfile = async (profileData: {
     name: string;
@@ -501,6 +547,12 @@ export default function App() {
   }
 
   const unreadCount = osData.notifications.filter(n => !n.read).length;
+  
+  // Dynamically calculate the real productivity score for the Daily Review
+  const todayStrForScore = new Date().toISOString().split("T")[0];
+  const taskScore = osData.tasks.length ? (osData.tasks.filter(t => t.status === "completed").length / osData.tasks.length) * 60 : 0;
+  const habitScore = osData.habits.length ? (osData.habits.filter(h => h.logs.includes(todayStrForScore)).length / osData.habits.length) * 40 : 0;
+  const realProductivityScore = Math.round(taskScore + habitScore);
 
   return (
     <div className="min-h-screen bg-slate-50/50 text-slate-650 flex font-sans">
@@ -619,10 +671,10 @@ export default function App() {
 
             <div>
               <h2 className="font-display font-black text-slate-800 text-sm md:text-base leading-tight">
-                Good Evening, {osData.profile.name.split(" ")[0]} 👋
+                Good Evening, {osData.profile.name.split(" ")[0]} ðŸ‘‹
               </h2>
               <p className="text-[10px] text-slate-400 font-mono uppercase tracking-wider">
-                COCKPIT CALIBRATION: OPTIMAL &bull; 2026-06-21
+                COCKPIT CALIBRATION: OPTIMAL &bull; {new Date().toISOString().split("T")[0]}
               </p>
             </div>
           </div>
@@ -713,13 +765,21 @@ export default function App() {
           )}
 
           {activeView === "goals" && (
-            <GoalsView />
+            <GoalsView 
+              goals={osData.goals || []}
+              onAddGoal={handleAddGoal}
+              onDeleteGoal={handleDeleteGoal}
+              onUpdateProgress={handleUpdateGoalProgress}
+            />
           )}
 
           {activeView === "analytics" && (
-            <AnalyticsView />
+            <AnalyticsView 
+            tasks={osData.tasks} 
+            habits={osData.habits} 
+            profileName={osData.profile.name} 
+          />
           )}
-
           {activeView === "ai-core" && (
             <PiggyChatView
               chatHistory={osData.chatHistory}
@@ -729,7 +789,7 @@ export default function App() {
           )}
 
           {activeView === "focus-timer" && (
-            <FocusModeView />
+            <FocusModeView defaultTaskTitle={selectedTaskTitle || undefined} />
           )}
 
           {activeView === "settings" && (
@@ -771,7 +831,7 @@ export default function App() {
         habitsCompleted={osData.habits.filter(h => h.logs.includes(new Date().toISOString().split("T")[0])).length}
         totalHabits={osData.habits.length}
         activeStreak={osData.habits.length > 0 ? Math.max(...osData.habits.map(h => h.streak)) : 0}
-        productivityScore={84} // Consolidated Score matching cockpit index
+        productivityScore={realProductivityScore} // Consolidated Score matching cockpit index
         onPlanTomorrow={handleSimulatePlanTomorrow}
       />
 
@@ -805,3 +865,6 @@ export default function App() {
     </div>
   );
 }
+
+
+
