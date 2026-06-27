@@ -300,5 +300,31 @@
       "read": false
     }
   ],
-  "goals": []
+  "goals": [],
+  "users": [
+    {
+      "id": "user-1782495235032",
+      "username": "sabari",
+      "email": "dsabari688@gmail.com",
+      "password": "sabari@2007",
+      "verified": false,
+      "createdAt": "2026-06-26T17:33:55.032Z"
+    },
+    {
+      "id": "user-1782496500273",
+      "username": "123",
+      "email": "123@gmail.com",
+      "password": "123",
+      "verified": false,
+      "createdAt": "2026-06-26T17:55:00.273Z"
+    },
+    {
+      "id": "user-1782529548608",
+      "username": "1",
+      "email": "1@gmail.com",
+      "password": "1",
+      "verified": false,
+      "createdAt": "2026-06-27T03:05:48.608Z"
+    }
+  ]
 }
